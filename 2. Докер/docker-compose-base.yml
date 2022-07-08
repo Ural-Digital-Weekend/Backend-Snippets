@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  web:
+    container_name: web-udw-local
+    build:
+      context: ./app
+    networks:
+      - udw-local
+    command: bash -c "python manage.py makemigrations &&
+      python manage.py migrate &&
+      python manage.py collectstatic --noinput &&
+      python manage.py runserver 0.0.0.0:1234"
+
+  nginx:
+    container_name: nginx-udw-local
+    image: nginx:latest
+    depends_on:
+      - web
+    networks:
+      - udw-local
+
+  db:
+    container_name: db-udw-local
+    image: postgres:14-alpine
+    networks:
+      - udw-local
+
+volumes:
+  web-static-local:
+  db-udw-local:
+
+networks:
+  udw-local:
+    driver: bridge

@@ -1,0 +1,6 @@
+REST_FRAMEWORK = {
+    ...
+    'DEFAULT_PAGINATION_CLASS': 'avia.api.paginations.DefaultPagination',
+    'PAGE_SIZE': 2,
+    ...
+}
